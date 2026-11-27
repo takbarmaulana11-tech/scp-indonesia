@@ -2,109 +2,184 @@
 
 import { useState } from "react";
 
+const categories = [
+  {
+    name: "Kopi Kenangan",
+    slug: "kopi-kenangan",
+    icon: "☕",
+    description: "Kopi dan minuman favorit",
+    color: "#FFF0E5",
+  },
+  {
+    name: "Tiket Bioskop",
+    slug: "tiket-bioskop",
+    icon: "🎬",
+    description: "XXI, CGV dan lainnya",
+    color: "#F0EAFE",
+  },
+  {
+    name: "McDonald's",
+    slug: "mcdonalds",
+    icon: "🍔",
+    description: "Makanan dan paket hemat",
+    color: "#FFF0F0",
+  },
+];
+
 const products = [
-  { name: "Kopi Kenangan", category: "Makanan & Minuman", price: "Rp25.000", icon: "☕" },
-  { name: "Tiket XXI", category: "Tiket Bioskop", price: "Rp20.000", icon: "🎬" },
-  { name: "Tiket CGV", category: "Tiket Bioskop", price: "Rp25.000", icon: "🍿" },
-  { name: "Promo Makanan", category: "Makanan & Minuman", price: "Rp30.000", icon: "🍔" }
+  {
+    name: "Promo Kopi Kenangan",
+    category: "Kopi Kenangan",
+    price: "Mulai dari Rp10.000",
+    icon: "☕",
+  },
+  {
+    name: "Tiket XXI",
+    category: "Tiket Bioskop",
+    price: "Harga promo tersedia",
+    icon: "🎟️",
+  },
+  {
+    name: "Promo McDonald's",
+    category: "McDonald's",
+    price: "Cek promo terbaru",
+    icon: "🍟",
+  },
 ];
 
 export default function Home() {
-  const [category, setCategory] = useState("Semua");
+  const [search, setSearch] = useState("");
 
-  const filtered = category === "Semua"
-    ? products
-    : products.filter(p => p.category === category);
+  const filtered = products.filter((product) =>
+    product.name.toLowerCase().includes(search.toLowerCase())
+  );
 
   return (
-    <main>
-      <header>
-        <h2>JAS<span>DOR.</span></h2>
-        <small>JASA ORDER • PROMO HEMAT</small>
+    <main className="min-h-screen bg-[#fafafa] text-gray-900">
+      <header className="sticky top-0 z-50 border-b bg-white/95 backdrop-blur">
+        <div className="mx-auto flex max-w-7xl items-center justify-between px-5 py-4">
+          <a href="/" className="text-2xl font-black tracking-tight text-red-700">
+            JASDOR<span className="text-gray-900">.</span>
+          </a>
+          <nav className="hidden items-center gap-8 text-sm font-semibold md:flex">
+            <a href="/" className="text-red-700">Beranda</a>
+            <a href="#kategori" className="hover:text-red-700">Kategori</a>
+            <a href="#produk" className="hover:text-red-700">Promo</a>
+          </nav>
+          <a href="#kategori" className="rounded-full bg-red-700 px-5 py-2.5 text-sm font-bold text-white hover:bg-red-800">
+            Mulai Order
+          </a>
+        </div>
       </header>
 
-      <section className="hero">
-        <p>SELAMAT DATANG DI JASDOR</p>
-        <h1>Promo menarik,<br/>order lebih mudah.</h1>
-        <p>Temukan berbagai promo makanan,
-        minuman dan tiket bioskop favoritmu.</p>
-        <button onClick={() =>
-          document.getElementById("produk").scrollIntoView()
-        }>Lihat Promo</button>
+      <section className="mx-auto max-w-7xl px-5 pt-8">
+        <div className="relative overflow-hidden rounded-[30px] bg-gradient-to-br from-red-800 via-red-700 to-red-950 px-7 py-14 text-white md:px-16 md:py-20">
+          <div className="relative z-10 max-w-2xl">
+            <span className="rounded-full border border-white/30 bg-white/10 px-4 py-2 text-xs font-bold tracking-widest">
+              WELCOME TO JASDOR
+            </span>
+            <h1 className="mt-7 text-4xl font-black leading-tight md:text-6xl">
+              Semua kebutuhan order, lebih mudah.
+            </h1>
+            <p className="mt-5 max-w-lg text-sm leading-7 text-red-100 md:text-base">
+              Temukan berbagai promo makanan, minuman, dan tiket bioskop dalam satu tempat.
+            </p>
+            <a href="#kategori" className="mt-8 inline-flex rounded-full bg-white px-7 py-3.5 text-sm font-bold text-red-800 shadow-lg transition hover:scale-105">
+              Jelajahi Sekarang →
+            </a>
+          </div>
+          <div className="pointer-events-none absolute -right-12 -top-16 h-80 w-80 rounded-full border-[45px] border-white/10" />
+          <div className="pointer-events-none absolute -bottom-32 right-24 h-72 w-72 rounded-full bg-red-500/20 blur-2xl" />
+        </div>
       </section>
 
-      <section id="produk">
-        <h2>Promo Pilihan</h2>
-        <p>Temukan penawaran menarik hari ini.</p>
+      <section className="mx-auto max-w-7xl px-5 py-10">
+        <div className="mx-auto flex max-w-3xl items-center gap-3 rounded-2xl border bg-white px-5 py-4 shadow-sm focus-within:border-red-400">
+          <span className="text-xl">⌕</span>
+          <input
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            placeholder="Cari produk atau layanan..."
+            className="w-full bg-transparent text-sm outline-none"
+          />
+        </div>
+      </section>
 
-        <nav>
-          {["Semua", "Makanan & Minuman", "Tiket Bioskop"].map(c => (
-            <button key={c}
-              className={category === c ? "active" : ""}
-              onClick={() => setCategory(c)}>
-              {c}
-            </button>
-          ))}
-        </nav>
+      <section id="kategori" className="mx-auto max-w-7xl px-5 py-5">
+        <div className="mb-7">
+          <p className="text-xs font-bold tracking-[0.2em] text-red-700">EXPLORE JASDOR</p>
+          <h2 className="mt-2 text-3xl font-black">Pilih Kategori</h2>
+          <p className="mt-2 text-sm text-gray-500">Temukan layanan yang ingin kamu pesan.</p>
+        </div>
 
-        <div className="products">
-          {filtered.map((p, i) => (
-            <article key={i}>
-              <div className="product-icon">{p.icon}</div>
-              <small>{p.category}</small>
-              <h3>{p.name}</h3>
-              <strong>{p.price}</strong>
-              <button onClick={() =>
-                window.open("https://wa.me/6283892700799", "_blank")
-              }>Pesan Sekarang</button>
-            </article>
+        <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
+          {categories.map((category) => (
+            <a
+              key={category.slug}
+              href={`/${category.slug}`}
+              className="group rounded-3xl border border-gray-100 bg-white p-6 shadow-sm transition duration-300 hover:-translate-y-1 hover:border-red-200 hover:shadow-xl"
+            >
+              <div
+                style={{ backgroundColor: category.color }}
+                className="flex h-16 w-16 items-center justify-center rounded-2xl text-3xl"
+              >
+                {category.icon}
+              </div>
+              <h3 className="mt-6 text-xl font-extrabold">{category.name}</h3>
+              <p className="mt-2 text-sm text-gray-500">{category.description}</p>
+              <div className="mt-6 flex items-center justify-between">
+                <span className="text-sm font-bold text-red-700">Lihat Layanan</span>
+                <span className="transition group-hover:translate-x-1">→</span>
+              </div>
+            </a>
           ))}
         </div>
       </section>
 
-      <footer>
-        <h2>JASDOR.</h2>
-        <p>Jasa Order Mudah, Promo Lebih Hemat.</p>
-        © 2026 JASDOR Indonesia
-      </footer>
+      <section id="produk" className="mx-auto max-w-7xl px-5 py-16">
+        <div className="mb-7">
+          <p className="text-xs font-bold tracking-[0.2em] text-red-700">SPECIAL OFFERS</p>
+          <h2 className="mt-2 text-3xl font-black">Promo Pilihan</h2>
+        </div>
 
-      <style jsx global>{`
-        * { box-sizing: border-box; }
-        body { margin: 0; font-family: Arial,sans-serif;
-          color: #242424; background: #fff; }
-        header { padding: 22px 8%; border-bottom: 1px solid #eee; }
-        header h2, footer h2 { margin: 0; color: #d71920; }
-        header h2 span { color: #222; }
-        header small { font-size: 10px; letter-spacing: 2px; }
-        .hero { background: #b9141d; color: white;
-          padding: 65px 9%; }
-        .hero h1 { font-size: clamp(35px,6vw,58px); }
-        button { cursor: pointer; border: 0; border-radius: 9px;
-          padding: 12px 18px; font-weight: bold; }
-        .hero button { background: white; color: #bd151d; }
-        #produk { padding: 45px 8%; }
-        nav { display: flex; gap: 9px; flex-wrap: wrap;
-          margin: 24px 0; }
-        nav button { background: #f3f3f3; }
-        nav button.active { background: #c71922; color: white; }
-        .products { display: grid;
-          grid-template-columns: repeat(2,minmax(0,1fr));
-          gap: 18px; }
-        article { border: 1px solid #eee; border-radius: 15px;
-          padding: 18px; }
-        .product-icon { background: #fff0f0; border-radius: 12px;
-          padding: 24px; text-align: center; font-size: 40px; }
-        article small { color: #888; display: block; margin-top: 14px; }
-        article strong { display: block; color: #c71922; margin: 12px 0; }
-        article button { background: #c71922; color: white; width: 100%; }
-        footer { background: #202020; color: white;
-          text-align: center; padding: 35px; }
-        @media(max-width:480px) {
-          #produk { padding: 30px 5%; }
-          .products { gap: 10px; }
-          article { padding: 11px; }
-        }
-      `}</style>
+        {filtered.length === 0 ? (
+          <p className="rounded-2xl bg-white p-8 text-center text-sm text-gray-500">
+            Produk tidak ditemukan.
+          </p>
+        ) : (
+          <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
+            {filtered.map((product) => (
+              <a
+                key={product.name}
+                href={`/${categories.find((c) => c.name === product.category)?.slug}`}
+                className="rounded-3xl border border-gray-100 bg-white p-6 shadow-sm transition hover:shadow-lg"
+              >
+                <div className="flex h-32 items-center justify-center rounded-2xl bg-gray-50 text-5xl">
+                  {product.icon}
+                </div>
+                <p className="mt-5 text-xs font-bold text-red-700">{product.category}</p>
+                <h3 className="mt-2 text-lg font-extrabold">{product.name}</h3>
+                <p className="mt-2 text-sm text-gray-500">{product.price}</p>
+                <div className="mt-5 rounded-xl bg-red-700 py-3 text-center text-sm font-bold text-white">
+                  Lihat Detail →
+                </div>
+              </a>
+            ))}
+          </div>
+        )}
+      </section>
+
+      <footer className="mt-10 bg-gray-950 px-5 py-12 text-white">
+        <div className="mx-auto max-w-7xl">
+          <h2 className="text-2xl font-black">JASDOR.</h2>
+          <p className="mt-3 max-w-md text-sm leading-6 text-gray-400">
+            Jasa Order — satu tempat untuk berbagai kebutuhan dan promo favoritmu.
+          </p>
+          <div className="mt-8 border-t border-white/10 pt-6 text-xs text-gray-500">
+            © 2026 JASDOR. All rights reserved.
+          </div>
+        </div>
+      </footer>
     </main>
   );
 }
